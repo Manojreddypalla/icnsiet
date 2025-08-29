@@ -1,0 +1,73 @@
+---
+// filepath: c:\Users\Manoj\Documents\GitHub\college-web-project\src\pages\archives.astro
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const archives = [
+  {
+    year: 2024,
+    issues: [
+      {
+        volume: 1,
+        issue: 1,
+        articles: [
+          {
+            title: "International Conference on Neural Nexus and Synergy: Innovation in Emerging Technologies",
+            authors: "Dr. CHANDRA SHEKAR, Dr. RAJINEESH, Dr. ARUNA VARANASI, Dr. H. BALAJI, SNIST",
+            pages: "1-335",
+            doi: "10.1234/qc.2025.001",
+            filePath: "/pdfs/ICNSIET_VOLUME1.pdf"
+          }
+        ]
+      }
+    ]
+  }
+];
+---
+
+<Layout>
+  <Header />
+
+  <main class="py-12 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl font-bold text-center mb-12">Archives</h1>
+
+      {archives.map((year) => (
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold mb-6">Year {year.year}</h2>
+
+          {year.issues.map((issue) => (
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+              <h3 class="text-2xl font-semibold mb-4">Volume {issue.volume}, Issue {issue.issue}</h3>
+
+              <div class="space-y-4">
+                {issue.articles.map((article) => (
+                  <div class="border-b border-gray-200 pb-4 last:border-0 last:pb-0">
+                    <h4 class="text-xl font-medium mb-2">
+                      <a
+                        href={article.filePath}
+                        class="text-primary hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {article.title}
+                      </a>
+                    </h4>
+                    <p class="text-gray-600 mb-2">{article.authors}</p>
+                    <div class="flex gap-4 text-sm text-gray-500">
+                      <span>Pages: {article.pages}</span>
+                      <span>DOI: {article.doi}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

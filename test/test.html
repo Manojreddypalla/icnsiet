@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend API Test - Paper Submission</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-8 max-w-2xl">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h1 class="text-3xl font-bold mb-2 text-gray-900">Paper Submission API Test</h1>
+            <p class="text-gray-600 mb-6">Use this form to test the POST /api/papers endpoint.</p>
+
+            <form id="paperForm" class="space-y-6">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Paper Title</label>
+                    <input type="text" id="title" name="title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="authorName" class="block text-sm font-medium text-gray-700 mb-1">Author Name</label>
+                        <input type="text" id="authorName" name="authorName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label for="authorEmail" class="block text-sm font-medium text-gray-700 mb-1">Author Email</label>
+                        <input type="email" id="authorEmail" name="authorEmail" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+                <div>
+                    <label for="affiliation" class="block text-sm font-medium text-gray-700 mb-1">Affiliation</label>
+                    <input type="text" id="affiliation" name="affiliation" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label for="abstract" class="block text-sm font-medium text-gray-700 mb-1">Abstract</label>
+                    <textarea id="abstract" name="abstract" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"></textarea>
+                </div>
+                <div>
+                    <label for="keywords" class="block text-sm font-medium text-gray-700 mb-1">Keywords (comma-separated)</label>
+                    <input type="text" id="keywords" name="keywords" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label for="paperPdf" class="block text-sm font-medium text-gray-700 mb-1">Upload Paper (PDF only)</label>
+                    <input type="file" id="paperPdf" name="paperPdf" accept=".pdf" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                </div>
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Submit Paper
+                    </button>
+                </div>
+            </form>
+
+            <div id="response" class="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200 hidden">
+                <h3 class="font-bold text-lg mb-2">Server Response:</h3>
+                <pre class="bg-gray-900 text-white p-4 rounded-md text-sm overflow-x-auto"><code id="response-data"></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('paperForm');
+        const responseContainer = document.getElementById('response');
+        const responseData = document.getElementById('response-data');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const actionUrl = 'http://100.99.217.57:3000/api/papers';
+
+            try {
+                const response = await fetch(actionUrl, {
+                    method: 'POST',
+                    body: formData,
+                });
+                const result = await response.json();
+                responseContainer.classList.remove('hidden');
+                responseData.textContent = JSON.stringify(result, null, 2);
+                responseContainer.className = `mt-8 p-4 bg-gray-50 rounded-lg border ${response.ok ? 'border-green-300' : 'border-red-300'}`;
+            } catch (error) {
+                responseContainer.classList.remove('hidden');
+                responseData.textContent = `An error occurred:\n${error.message}`;
+                responseContainer.className = 'mt-8 p-4 bg-gray-50 rounded-lg border border-red-300';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+---
+// CountdownGlassyLight.astro
+---
+<section class="h-[500px] flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 text-gray-900 p-6 transition-all duration-500 ease-in-out" id="background">
+  <h2 class="text-4xl font-extrabold mb-8 tracking-wider text-purple-700 drop-shadow-md">TIME REMAINING</h2>
+
+  <div id="countdown" class="flex justify-center flex-wrap gap-6">
+    {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
+      <div class="glass-card flex flex-col items-center justify-center w-20 h-24 rounded-2xl shadow-xl backdrop-blur-lg bg-white/50 border border-purple-200 cursor-pointer" key={unit} onMouseOver={() => shiftBackground()} onMouseOut={() => resetBackground()}>
+        <div class="text-4xl font-bold mb-1 transition-transform duration-300 ease-in-out text-purple-700" id={unit}>00</div>
+        <div class="text-sm tracking-widest uppercase text-purple-500">{unit}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  function updateCountdown() {
+    const now = new Date();
+    const targetDate = new Date('December 1, 2025 00:00:00');
+    const timeLeft = targetDate.getTime() - now.getTime();
+
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    updateCard('days', days);
+    updateCard('hours', hours);
+    updateCard('minutes', minutes);
+    updateCard('seconds', seconds);
+  }
+
+  function updateCard(unit, value) {
+    const newValue = String(value).padStart(2, '0');
+    const card = document.getElementById(unit);
+
+    if (card.textContent !== newValue) {
+      card.classList.add('scale-125');
+      setTimeout(() => {
+        card.textContent = newValue;
+        card.classList.remove('scale-125');
+      }, 300);
+    }
+  }
+
+  function shiftBackground() {
+    const bg = document.getElementById('background');
+    bg.style.background = 'linear-gradient(135deg, #d3cce3, #e9e4f0)';
+  }
+
+  function resetBackground() {
+    const bg = document.getElementById('background');
+    bg.style.background = 'linear-gradient(to bottom right, #f3f4f6, #e5e7eb, #d1d5db)';
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+
+<style>
+  .glass-card {
+    transition: transform 0.4s ease, background 0.4s ease;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(168, 85, 247, 0.2); /* light purple border */
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .glass-card:hover {
+    transform: scale(1.1);
+    background: rgba(236, 222, 255, 0.5);
+  }
+
+  .scale-125 {
+    transform: scale(1.25);
+  }
+</style>

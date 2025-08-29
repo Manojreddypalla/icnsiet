@@ -1,0 +1,138 @@
+<section class="relative py-20 overflow-hidden">
+  <div class="absolute inset-0 z-0">
+    <img
+      src="https://media.licdn.com/dms/image/v2/C561BAQGoY66aEX6qXQ/company-background_10000/company-background_10000/0/1593585933087/sreenidhi_institure_of_science_and_technology_cover?e=2147483647&v=beta&t=muqT75qceAiUAAtnIUrO1OhPYc57pDU1VHSKm-7ydRU"
+      alt="Conference Background"
+      class="w-full h-full object-cover opacity-20"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-primary/30 to-secondary/30"></div>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+        Welcome to ICNSIET 2025
+      </h1>
+      <p class="text-xl text-gray-800 mb-8">
+        Advancing the Future of Computing Systems
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+        href="#register"
+        class="px-12 py-6 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all text-2xl"
+      >
+        Register Now
+      </a>
+      </div>
+      <!-- <p id="visitor-counter" class="mt-8 text-lg font-bold text-gray-700">
+        <span id="loading-text">Loading visitor count...</span>
+        <span id="error-text" class="text-red-500 hidden">Error loading visitor count</span>
+        <span id="db-error-text" class="text-yellow-500 hidden">Database connection not configured</span>
+        <span id="counter-text" class="hidden"></span>
+      </p> -->
+    </div>
+  </div>
+</section>
+
+<script>
+// Get or create client ID from localStorage
+let clientId = localStorage.getItem('visitor-client-id');
+if (!clientId) {
+  clientId = crypto.randomUUID();
+  localStorage.setItem('visitor-client-id', clientId);
+}
+
+let updateInterval: number | null = null;
+let lastUpdateTime = Date.now();
+let hasUpdatedVisits = localStorage.getItem('has-updated-visits') === 'true';
+
+function showElement(id: string) {
+  document.getElementById('loading-text')?.classList.add('hidden');
+  document.getElementById('error-text')?.classList.add('hidden');
+  document.getElementById('db-error-text')?.classList.add('hidden');
+  document.getElementById('counter-text')?.classList.add('hidden');
+  document.getElementById(id)?.classList.remove('hidden');
+}
+
+async function updateVisitorCount(updateTotalVisits = false) {
+  try {
+    // Only update if at least 5 seconds have passed since last update
+    const now = Date.now();
+    if (now - lastUpdateTime < 5000) {
+      return;
+    }
+    lastUpdateTime = now;
+
+    console.log('Updating visitor count for client:', clientId, 'Update total:', updateTotalVisits);
+    const response = await fetch('/api/visitors', {
+      headers: {
+        'x-client-id': clientId || '',
+        'x-update-total': updateTotalVisits ? 'true' : 'false'
+      }
+    });
+    
+    const data = await response.json();
+    console.log('Received data:', data);
+    
+    if (response.status === 503) {
+      showElement('db-error-text');
+      return;
+    }
+    
+    if (!response.ok || data.error) {
+      throw new Error(data.error || `Failed to fetch visitor count: ${response.status}`);
+    }
+    
+    // Update client ID if it changed
+    const newClientId = response.headers.get('x-client-id');
+    if (newClientId && newClientId !== clientId) {
+      clientId = newClientId;
+      localStorage.setItem('visitor-client-id', clientId);
+    }
+    
+    const counterText = document.getElementById('counter-text');
+    if (counterText) {
+      counterText.textContent = `Total Visits: ${data.totalVisits} | Active Users: ${data.activeUsers}`;
+      showElement('counter-text');
+    }
+
+    // If we updated total visits, mark it in localStorage
+    if (updateTotalVisits) {
+      hasUpdatedVisits = true;
+      localStorage.setItem('has-updated-visits', 'true');
+    }
+  } catch (error) {
+    console.error('Error updating visitor count:', error);
+    showElement('error-text');
+  }
+}
+
+// Update count when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Initializing visitor counter with client ID:', clientId);
+  console.log('Has updated visits:', hasUpdatedVisits);
+  
+  // Update total visits only once per session
+  if (!hasUpdatedVisits) {
+    updateVisitorCount(true);
+  } else {
+    // If we've already updated visits, just get the current count
+    updateVisitorCount(false);
+  }
+  
+  // Update active users count every 10 seconds
+  updateInterval = window.setInterval(() => updateVisitorCount(false), 10000);
+  
+  // Update active users count on user interaction
+  document.addEventListener('mousemove', () => updateVisitorCount(false));
+  document.addEventListener('click', () => updateVisitorCount(false));
+  document.addEventListener('keypress', () => updateVisitorCount(false));
+});
+
+// Cleanup interval when page is unloaded
+window.addEventListener('beforeunload', () => {
+  if (updateInterval) {
+    clearInterval(updateInterval);
+  }
+});
+</script>
