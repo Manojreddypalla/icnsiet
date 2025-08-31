@@ -7,53 +7,94 @@ import Footer from '../components/Footer.astro';
 <Layout>
   <Header />
   <section class="text-center py-8">
-    <h2 class="text-3xl font-bold mb-6 text-gray-800 tracking-tight">Contact Us</h2>
-    <form id="contact-form" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
-      <div class="mb-4">
-        <label for="name" class="block text-left text-gray-700 font-bold mb-2">Name</label>
-        <input type="text" id="name" name="name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+    <div class="container mx-auto p-8 max-w-2xl">
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <h1 class="text-3xl font-bold mb-2 text-gray-900">Paper Submission API Test</h1>
+        <p class="text-gray-600 mb-6">Use this form to test the POST /api/papers endpoint.</p>
+
+        <form id="paperForm" class="space-y-6">
+          <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Paper Title</label>
+            <input type="text" id="title" name="title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="authorName" class="block text-sm font-medium text-gray-700 mb-1">Author Name</label>
+              <input type="text" id="authorName" name="authorName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" />
+            </div>
+            <div>
+              <label for="authorEmail" class="block text-sm font-medium text-gray-700 mb-1">Author Email</label>
+              <input type="email" id="authorEmail" name="authorEmail" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" />
+            </div>
+          </div>
+
+          <div>
+            <label for="affiliation" class="block text-sm font-medium text-gray-700 mb-1">Affiliation</label>
+            <input type="text" id="affiliation" name="affiliation" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" />
+          </div>
+
+          <div>
+            <label for="abstract" class="block text-sm font-medium text-gray-700 mb-1">Abstract</label>
+            <textarea id="abstract" name="abstract" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"></textarea>
+          </div>
+
+          <div>
+            <label for="keywords" class="block text-sm font-medium text-gray-700 mb-1">Keywords (comma-separated)</label>
+            <input type="text" id="keywords" name="keywords" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" />
+          </div>
+
+          <div>
+            <label for="paperPdf" class="block text-sm font-medium text-gray-700 mb-1">Upload Paper (PDF only)</label>
+            <input type="file" id="paperPdf" name="paperPdf" accept=".pdf" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
+          </div>
+
+          <div class="pt-4">
+            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Submit Paper
+            </button>
+          </div>
+        </form>
+
+        <div id="response" class="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200 hidden">
+          <h3 class="font-bold text-lg mb-2">Server Response:</h3>
+          <pre class="bg-gray-900 text-white p-4 rounded-md text-sm overflow-x-auto"><code id="response-data"></code></pre>
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="email" class="block text-left text-gray-700 font-bold mb-2">Email</label>
-        <input type="email" id="email" name="email" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
-      </div>
-      <div class="mb-4">
-        <label for="message" class="block text-left text-gray-700 font-bold mb-2">Message</label>
-        <textarea id="message" name="message" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="w-full bg-gradient-to-br from-primary to-secondary text-white font-bold py-2 px-4 rounded-lg hover:opacity-90 transition-opacity">Send Message</button>
-    </form>
-    <div id="form-message" class="mt-4 text-lg"></div>
+    </div>
   </section>
   <Footer />
 </Layout>
 
 <script>
-  document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
+  const form = document.getElementById('paperForm');
+  const responseContainer = document.getElementById('response');
+  const responseData = document.getElementById('response-data');
 
-    if (name && email && message) {
-      document.getElementById('form-message').textContent = 'Thank you for your message!';
-      document.getElementById('form-message').classList.add('text-green-500');
-      document.getElementById('contact-form').reset();
-    } else {
-      document.getElementById('form-message').textContent = 'Please fill out all fields.';
-      document.getElementById('form-message').classList.add('text-red-500');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const actionUrl = 'http://100.99.217.57:3000/api/papers'; // backend API
+
+    try {
+      const response = await fetch(actionUrl, {
+        method: 'POST',
+        body: formData,
+      });
+      const result = await response.json();
+      responseContainer.classList.remove('hidden');
+      responseData.textContent = JSON.stringify(result, null, 2);
+
+      // ✅ Use string concatenation instead of template literal
+      responseContainer.className =
+        'mt-8 p-4 bg-gray-50 rounded-lg border ' +
+        (response.ok ? 'border-green-300' : 'border-red-300');
+    } catch (error) {
+      responseContainer.classList.remove('hidden');
+      responseData.textContent = 'An error occurred:\n' + error.message;
+      responseContainer.className =
+        'mt-8 p-4 bg-gray-50 rounded-lg border border-red-300';
     }
   });
 </script>
 
-<style>
-  .bg-gradient-to-br {
-    background: linear-gradient(to bottom right, var(--tw-gradient-stops));
-  }
-  .from-primary {
-    --tw-gradient-from: #6b46c1;
-  }
-  .to-secondary {
-    --tw-gradient-to: #553c9a;
-  }
-</style>
