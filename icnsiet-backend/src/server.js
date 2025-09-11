@@ -1,3 +1,9 @@
+/**
+ * @file server.js
+ * @description This file contains the main server setup for the application.
+ * @module server
+ */
+
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
@@ -33,18 +39,69 @@ mongoose.connect(DB_URI)
     });
 
 // --- Middlewares ---
+
+/**
+ * @name use
+ * @description Enables CORS for all routes.
+ * @function
+ * @memberof module:server
+ */
 app.use(cors());
+
+/**
+ * @name use
+ * @description Parses incoming JSON requests.
+ * @function
+ * @memberof module:server
+ */
 app.use(express.json());
+
+/**
+ * @name use
+ * @description Parses incoming URL-encoded requests.
+ * @function
+ * @memberof module:server
+ */
 app.use(express.urlencoded({ extended: true }));
+
+/**
+ * @name use
+ * @description Serves static files from the 'uploads' directory.
+ * @function
+ * @memberof module:server
+ */
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 
 // --- API Routes ---
+
+/**
+ * @name use
+ * @description Mounts the paper routes on the '/api/papers' path.
+ * @function
+ * @memberof module:server
+ */
 app.use('/api/papers', paperRoutes);
+
+/**
+ * @name use
+ * @description Mounts the user routes on the '/api/users' path.
+ * @function
+ * @memberof module:server
+ */
 app.use('/api/users', userRoutes); // <-- THIS IS THE CRITICAL FIX
 
 
 // --- Handle Not Found Routes ---
+
+/**
+ * @name all
+ * @description Handles requests for routes that are not found.
+ * @function
+ * @memberof module:server
+ * @param {string} path - The path to match.
+ * @param {function} callback - The callback function to execute.
+ */
 app.all('*', (req, res, next) => {
     res.status(404).json({
         status: 'fail',
@@ -54,6 +111,14 @@ app.all('*', (req, res, next) => {
 
 
 // --- Global Error Handler ---
+
+/**
+ * @name use
+ * @description Global error handler for the application.
+ * @function
+ * @memberof module:server
+ * @param {function} callback - The callback function to execute.
+ */
 app.use((err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
@@ -67,6 +132,15 @@ app.use((err, req, res, next) => {
 
 
 // --- Start the Server ---
+
+/**
+ * @name listen
+ * @description Starts the server on the specified port.
+ * @function
+ * @memberof module:server
+ * @param {number} port - The port to listen on.
+ * @param {function} callback - The callback function to execute.
+ */
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

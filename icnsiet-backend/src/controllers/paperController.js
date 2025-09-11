@@ -1,3 +1,9 @@
+/**
+ * @file paperController.js
+ * @description This file contains the controller functions for paper-related operations.
+ * @module controllers/paperController
+ */
+
 import Paper from '../models/paperModel.js';
 import User from '../models/userModel.js';
 import multer from 'multer';
@@ -5,7 +11,10 @@ import path from 'path';
 import sendEmail from '../utils/email.js';
 import { Parser } from 'json2csv';
 
-// --- (Multer configuration remains the same) ---
+/**
+ * @constant {object} storage
+ * @description Multer storage configuration for handling file uploads.
+ */
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
   filename: (req, file, cb) => {
@@ -14,15 +23,35 @@ const storage = multer.diskStorage({
     cb(null, `${uniqueSuffix}-${sanitizedOriginalName}`);
   }
 });
+
+/**
+ * @function fileFilter
+ * @description Multer file filter to allow only PDF files.
+ * @param {object} req - The Express request object.
+ * @param {object} file - The file object.
+ * @param {function} cb - The callback function.
+ */
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'application/pdf') cb(null, true);
   else cb(new Error('Invalid file type. Only PDFs are allowed.'), false);
 };
+
+/**
+ * @constant {function} upload
+ * @description Multer middleware for handling single file uploads.
+ */
 export const upload = multer({ storage, fileFilter }).single('paperPdf');
 
 
 // --- Controller Functions ---
 
+/**
+ * @function getAllPapers
+ * @description Retrieves all papers. If the user is a reviewer, it returns only the papers assigned to them, with author information anonymized.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {object} A JSON response containing the list of papers.
+ */
 export const getAllPapers = async (req, res) => {
     try {
         let query = {};
@@ -55,8 +84,13 @@ export const getAllPapers = async (req, res) => {
     }
 };
 
-// ... (The rest of your controller functions: submitPaper, getPaperById, updatePaperStatus, assignReviewer, submitReview)
-// They do not need to be changed for this feature.
+/**
+ * @function submitPaper
+ * @description Submits a new paper.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {object} A JSON response containing the newly created paper.
+ */
 export const submitPaper = async (req, res) => {
   try {
     const { title, authorName, authorEmail, affiliation, abstract, keywords } = req.body;
@@ -73,6 +107,13 @@ export const submitPaper = async (req, res) => {
   }
 };
 
+/**
+ * @function getPaperById
+ * @description Retrieves a paper by its ID.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {object} A JSON response containing the paper.
+ */
 export const getPaperById = async (req, res) => {
     try {
         const paper = await Paper.findById(req.params.id).populate('reviews.reviewer', 'name email');
@@ -85,6 +126,13 @@ export const getPaperById = async (req, res) => {
     }
 };
 
+/**
+ * @function updatePaperStatus
+ * @description Updates the status of a paper.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {object} A JSON response containing the updated paper.
+ */
 export const updatePaperStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -96,6 +144,13 @@ export const updatePaperStatus = async (req, res) => {
   }
 };
 
+/**
+ * @function assignReviewer
+ * @description Assigns a reviewer to a paper.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {object} A JSON response containing the updated paper.
+ */
 export const assignReviewer = async (req, res) => {
     try {
         const { reviewerId } = req.body;
@@ -116,6 +171,13 @@ export const assignReviewer = async (req, res) => {
     }
 };
 
+/**
+ * @function submitReview
+ * @description Submits a review for a paper.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @returns {object} A JSON response containing the submitted review.
+ */
 export const submitReview = async (req, res) => {
     try {
         const { status, remarks } = req.body;

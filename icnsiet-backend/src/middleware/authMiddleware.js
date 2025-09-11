@@ -1,8 +1,20 @@
+/**
+ * @file authMiddleware.js
+ * @description This file contains middleware for authentication and authorization.
+ * @module middleware/authMiddleware
+ */
+
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 import User from '../models/userModel.js';
 
-// This middleware checks if a user is logged in by verifying their JWT.
+/**
+ * @function protect
+ * @description Middleware to protect routes by verifying the user's JWT.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @param {function} next - The Express next middleware function.
+ */
 export const protect = async (req, res, next) => {
   try {
     // 1) Getting token and check if it exists
@@ -36,8 +48,12 @@ export const protect = async (req, res, next) => {
 };
 
 
-// --- NEW FUNCTION ---
-// This middleware checks if the logged-in user has one of the required roles.
+/**
+ * @function restrictTo
+ * @description Middleware to restrict access to routes based on user roles.
+ * @param {...string} roles - The roles that are allowed to access the route.
+ * @returns {function} The middleware function.
+ */
 export const restrictTo = (...roles) => {
   return (req, res, next) => {
     // 'roles' is an array like ['admin'] or ['admin', 'reviewer']

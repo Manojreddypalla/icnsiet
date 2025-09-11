@@ -1,5 +1,17 @@
 ---
-// filepath: c:\Users\Manoj\Documents\GitHub\college-web-project\src\pages\editorial-board.astro
+/**
+ * @file editorial-board.astro
+ * @description This page displays the editorial board of the conference.
+ * @component
+ * @property {Array} editorialBoard - An array of editorial board member objects.
+ * @property {number} editorialBoard.id - The ID of the member.
+ * @property {string} editorialBoard.name - The name of the member.
+ * @property {string} editorialBoard.role - The role of the member.
+ * @property {string} editorialBoard.institution - The institution of the member.
+ * @property {string} editorialBoard.email - The email of the member.
+ * @property {string[]} editorialBoard.expertise - An array of the member's expertise.
+ * @property {string} editorialBoard.image - The URL of the member's image.
+ */
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";

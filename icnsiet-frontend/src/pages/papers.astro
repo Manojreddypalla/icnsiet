@@ -1,4 +1,19 @@
 ---
+/**
+ * @file papers.astro
+ * @description This page displays a list of research papers and allows users to filter them by category and search term.
+ * @component
+ * @property {Array} papers - An array of paper objects.
+ * @property {number} papers.id - The ID of the paper.
+ * @property {string} papers.title - The title of the paper.
+ * @property {string} papers.authors - The authors of the paper.
+ * @property {string} papers.professor - The professor associated with the paper.
+ * @property {string} papers.description - A short description of the paper.
+ * @property {string[]} papers.categories - An array of categories the paper belongs to.
+ * @property {string} papers.image - The URL of the paper's image.
+ * @property {string} papers.pdfLink - The URL of the paper's PDF file.
+ * @property {string[]} categories - An array of available categories.
+ */
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -78,7 +93,14 @@ const categories = [
   'Disease Prediction'
 ];
 
-// Server-side filtering function
+/**
+ * @function filterPapers
+ * @description Filters a list of papers based on a category and search term.
+ * @param {Array} papers - The list of papers to filter.
+ * @param {string} category - The category to filter by.
+ * @param {string} searchTerm - The search term to filter by.
+ * @returns {Array} The filtered list of papers.
+ */
 function filterPapers(papers, category, searchTerm) {
   return papers.filter(paper => {
     // Category filter
@@ -191,6 +213,10 @@ const filteredPapers = filterPapers(papers, initialCategory, initialSearchTerm);
 </Layout>
 
 <script is:inline>
+/**
+ * @file This script handles the filtering and searching of research papers.
+ * @description It adds event listeners to the category buttons and search input to update the URL and reload the page with the selected filters.
+ */
   document.addEventListener('DOMContentLoaded', () => {
     const categoryButtons = document.querySelectorAll('.category-btn');
     const searchInput = document.getElementById('search-input');

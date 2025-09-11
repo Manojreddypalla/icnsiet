@@ -1,54 +1,80 @@
-# Astro Starter Kit: Basics
+# ICNSIET Frontend
 
-```sh
-npm create astro@latest -- --template basics
+This is the frontend for the ICNSIET conference management system. It is an [Astro](https://astro.build/) application that provides the public-facing website for the conference.
+
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
+
+## Features
+
+- Home page with conference information
+- About page with details about the conference and the host institution
+- Editorial board page
+- Papers page with a list of research papers
+- Committee page
+- Contact page with a paper submission form
+- Guidelines page for authors
+
+## Prerequisites
+
+- Node.js (v14 or higher)
+- npm
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
+2. Navigate to the `icnsiet-frontend` directory:
+   ```bash
+   cd icnsiet-frontend
+   ```
+3. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+## Running the Application
+
+To run the application in development mode, use the following command:
+
+```bash
+npm run dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+The application will be available at `http://localhost:4321`.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+To build the application for production, use the following command:
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+```bash
+npm run build
+```
 
-## 🚀 Project Structure
+## Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
+The `icnsiet-frontend` project has the following structure:
 
-```text
+```
 /
 ├── public/
-│   └── favicon.svg
+│   ├── ... (static assets)
 ├── src/
+│   ├── components/
+│   │   ├── ... (Astro components)
 │   ├── layouts/
 │   │   └── Layout.astro
 │   └── pages/
-│       └── index.astro
+│       ├── ... (Astro pages)
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-
-**************\*\***************\*\*\***************\*\***************link for the website**********\*\*\*\***********\*\*\*\***********\*\*\*\***********
-
-https://icnsiet.org/
-
+- **`public/`**: Contains static assets such as images, fonts, and PDFs.
+- **`src/components/`**: Contains reusable Astro components.
+- **`src/layouts/`**: Contains layout components that define the structure of pages.
+- **`src/pages/`**: Contains the pages of the website. Each `.astro` file in this directory becomes a page on the website.

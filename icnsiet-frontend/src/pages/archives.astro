@@ -1,5 +1,20 @@
 ---
-// filepath: c:\Users\Manoj\Documents\GitHub\college-web-project\src\pages\archives.astro
+/**
+ * @file archives.astro
+ * @description This page displays the conference archives.
+ * @component
+ * @property {Array} archives - An array of archive objects.
+ * @property {number} archives.year - The year of the archive.
+ * @property {Array} archives.issues - An array of issue objects.
+ * @property {number} archives.issues.volume - The volume of the issue.
+ * @property {number} archives.issues.issue - The number of the issue.
+ * @property {Array} archives.issues.articles - An array of article objects.
+ * @property {string} archives.issues.articles.title - The title of the article.
+ * @property {string} archives.issues.articles.authors - The authors of the article.
+ * @property {string} archives.issues.articles.pages - The page numbers of the article.
+ * @property {string} archives.issues.articles.doi - The DOI of the article.
+ * @property {string} archives.issues.articles.filePath - The path to the article's PDF file.
+ */
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
