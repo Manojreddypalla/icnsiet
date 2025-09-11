@@ -1,3 +1,8 @@
+/**
+ * @file Navbar.jsx
+ * @description This component displays the navigation bar for the admin panel.
+ * @component
+ */
 export default function Navbar() {
   return (
     <nav className="bg-white shadow-md px-6 py-3 flex justify-between items-center">

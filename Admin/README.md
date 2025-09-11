@@ -1,12 +1,83 @@
-# React + Vite
+# ICNSIET Admin Panel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the admin panel for the ICNSIET conference management system. It is a React application built with Vite that provides a dashboard for managing papers, users, and reviews.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- User authentication for admins and reviewers
+- Dashboard with statistics on paper submissions
+- Paper management, including assigning reviewers and updating paper status
+- User management, including adding new users
+
+## Prerequisites
+
+- Node.js (v14 or higher)
+- npm
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
+2. Navigate to the `Admin` directory:
+   ```bash
+   cd Admin
+   ```
+3. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+## Configuration
+
+The application uses a `config.js` file to configure the API base URL. You can modify this file to point to your backend API.
+
+## Running the Application
+
+To run the application in development mode, use the following command:
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`.
+
+To build the application for production, use the following command:
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+The `Admin` project has the following structure:
+
+```
+/
+├── public/
+│   ├── ... (static assets)
+├── src/
+│   ├── components/
+│   │   ├── ... (React components)
+│   ├── pages/
+│   │   ├── ... (React pages)
+│   ├── App.jsx
+│   └── main.jsx
+└── package.json
+```
+
+- **`public/`**: Contains static assets.
+- **`src/components/`**: Contains reusable React components.
+- **`src/pages/`**: Contains the pages of the application.
+- **`src/App.jsx`**: The main application component that sets up the routing.
+- **`src/main.jsx`**: The entry point of the application.

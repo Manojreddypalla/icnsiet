@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react';
+/**
+ * @file UserManagementPage.jsx
+ * @description This page allows admins to manage users.
+ * @component
+ */
+
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { Spinner, UsersIcon, PlusIcon } from '../../components/ui/Icons';
+import AdminLayout from '../../components/layout/AdminLayout';
 
-// Mock data to use as a fallback if the API call fails
-const mockUsers = [
-    { _id: '1', name: 'Manoj Admin (Mock)', email: 'admin@example.com', role: 'admin' },
-    { _id: '2', name: 'Jane Reviewer (Mock)', email: 'jane.reviewer@example.com', role: 'reviewer' },
-];
-
+/**
+ * @function UserManagementPage
+ * @description This page allows admins to manage users.
+ * @param {object} props - The component props.
+ * @param {string} props.token - The user's authentication token.
+ * @returns {React.ReactElement} The user management page.
+ */
 export default function UserManagementPage({ token }) {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -22,26 +30,24 @@ export default function UserManagementPage({ token }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formError, setFormError] = useState('');
 
-    // Fetch the list of existing users when the page loads
-    useEffect(() => {
-        const fetchUsers = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get(`${API_BASE_URL}/api/users`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setUsers(response.data.data.users);
-            } catch (err) {
-                setError('Failed to fetch users. Displaying mock data as a fallback.');
-                setUsers(mockUsers); // Use mock data if the API fails
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchUsers();
+    const fetchUsers = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get(`${API_BASE_URL}/api/users`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setUsers(response.data.data.users);
+        } catch (err) {
+            setError('Failed to fetch users.');
+        } finally {
+            setIsLoading(false);
+        }
     }, [token]);
 
-    // Handle the form submission to create a new user
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
+
     const handleAddUser = async (e) => {
         e.preventDefault();
         setFormError('');
@@ -52,9 +58,7 @@ export default function UserManagementPage({ token }) {
                 { name: newName, email: newEmail, password: newPassword, role: newRole },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            // Add the new user to the list for instant UI feedback
             setUsers(currentUsers => [response.data.data.user, ...currentUsers]);
-            // Reset the form fields
             setNewName('');
             setNewEmail('');
             setNewPassword('');
@@ -67,14 +71,13 @@ export default function UserManagementPage({ token }) {
     };
 
     return (
-        <>
+        <AdminLayout>
             <header className="bg-white shadow-sm">
                 <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                     <h1 className="text-2xl font-semibold text-gray-900">User Management</h1>
                 </div>
             </header>
             <main className="flex-1 overflow-y-auto bg-gray-100 p-6 space-y-8">
-                {/* --- Add User Form Section with Improved Layout --- */}
                 <div className="bg-white p-6 rounded-lg shadow">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                         <PlusIcon className="h-6 w-6 mr-2" />
@@ -111,7 +114,6 @@ export default function UserManagementPage({ token }) {
                     </form>
                 </div>
 
-                {/* --- Existing Users Table Section --- */}
                 <div className="bg-white rounded-lg shadow">
                     <div className="p-6">
                         <h2 className="text-xl font-semibold text-gray-800 flex items-center">
@@ -131,6 +133,8 @@ export default function UserManagementPage({ token }) {
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {isLoading ? (
                                     <tr><td colSpan="3" className="text-center py-8"><Spinner className="h-6 w-6 mx-auto border-gray-400" /></td></tr>
+                                ) : error ? (
+                                    <tr><td colSpan="3" className="text-center py-8 text-red-500">{error}</td></tr>
                                 ) : (
                                     users.map(user => (
                                         <tr key={user._id} className="hover:bg-gray-50">
@@ -149,6 +153,6 @@ export default function UserManagementPage({ token }) {
                     </div>
                 </div>
             </main>
-        </>
+        </AdminLayout>
     );
 }

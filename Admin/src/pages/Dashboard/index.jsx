@@ -1,9 +1,25 @@
+/**
+ * @file index.jsx
+ * @description This page displays the admin dashboard.
+ * @component
+ */
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { Spinner, FileTextIcon, UsersIcon, ClockIcon, CheckIcon } from '../../components/ui/Icons';
 
+/**
+ * @function StatCard
+ * @description A card component to display a statistic.
+ * @param {object} props - The component props.
+ * @param {string} props.title - The title of the statistic.
+ * @param {number} props.value - The value of the statistic.
+ * @param {React.ReactElement} props.icon - The icon for the statistic.
+ * @param {string} props.color - The color of the icon's background.
+ * @returns {React.ReactElement} The stat card component.
+ */
 const StatCard = ({ title, value, icon, color }) => (
     <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
         <div className={`p-3 rounded-full mr-4 ${color}`}>{icon}</div>
@@ -14,6 +30,13 @@ const StatCard = ({ title, value, icon, color }) => (
     </div>
 );
 
+/**
+ * @function RecentSubmissionItem
+ * @description A component to display a recent submission item.
+ * @param {object} props - The component props.
+ * @param {object} props.paper - The paper object.
+ * @returns {React.ReactElement} The recent submission item component.
+ */
 const RecentSubmissionItem = ({ paper }) => (
     <li className="flex items-center justify-between py-3">
         <div>
@@ -24,6 +47,14 @@ const RecentSubmissionItem = ({ paper }) => (
     </li>
 );
 
+/**
+ * @function DashboardPage
+ * @description This page displays the admin dashboard.
+ * @param {object} props - The component props.
+ * @param {string} props.token - The user's authentication token.
+ * @param {function} props.onLogout - The function to call when the user logs out.
+ * @returns {React.ReactElement} The dashboard page.
+ */
 export default function DashboardPage({ token, onLogout }) {
     const [stats, setStats] = useState({ total: 0, pending: 0, accepted: 0, users: 0 });
     const [recentPapers, setRecentPapers] = useState([]);

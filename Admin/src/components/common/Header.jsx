@@ -1,6 +1,18 @@
+/**
+ * @file Header.jsx
+ * @description This component displays the header for the admin panel.
+ * @component
+ */
+
 import React from 'react';
 
-// A simple refresh icon
+/**
+ * @function RefreshIcon
+ * @description A simple refresh icon component.
+ * @param {object} props - The component props.
+ * @param {string} props.className - The class name for the icon.
+ * @returns {React.ReactElement} The refresh icon.
+ */
 const RefreshIcon = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
         <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
@@ -11,7 +23,13 @@ const RefreshIcon = ({ className }) => (
 );
 
 
-// This component receives the 'onRefresh' function from the DashboardPage.
+/**
+ * @function Header
+ * @description This component displays the header for the admin panel.
+ * @param {object} props - The component props.
+ * @param {function} props.onRefresh - The function to call when the refresh button is clicked.
+ * @returns {React.ReactElement} The header component.
+ */
 export default function Header({ onRefresh }) {
     return (
         <header className="bg-white shadow-sm">

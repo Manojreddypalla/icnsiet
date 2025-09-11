@@ -1,9 +1,22 @@
+/**
+ * @file ReviewerDashboard.jsx
+ * @description This page displays the dashboard for reviewers.
+ * @component
+ */
+
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { Spinner, FileTextIcon, LogOutIcon, CheckCircleIcon, XCircleIcon } from '../../components/ui/Icons';
 
-// This is the main dashboard component for users with the "reviewer" role.
+/**
+ * @function ReviewerDashboard
+ * @description This page displays the dashboard for reviewers.
+ * @param {object} props - The component props.
+ * @param {string} props.token - The user's authentication token.
+ * @param {function} props.onLogout - The function to call when the user logs out.
+ * @returns {React.ReactElement} The reviewer dashboard page.
+ */
 export default function ReviewerDashboard({ token, onLogout }) {
     const [assignedPapers, setAssignedPapers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

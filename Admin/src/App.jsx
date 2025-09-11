@@ -1,3 +1,9 @@
+/**
+ * @file App.jsx
+ * @description This is the main component that sets up the routing for the application.
+ * @module App
+ */
+
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -10,7 +16,14 @@ import PapersPage from './pages/Papers';
 import PaperDetailsPage from './pages/Papers/Details';
 import ReviewerDashboard from './pages/Reviewer/ReviewerDashboard';
 
-// This is a helper component to protect routes that require a login.
+/**
+ * @function ProtectedRoute
+ * @description A helper component to protect routes that require a login.
+ * @param {object} props - The component props.
+ * @param {string} props.token - The user's authentication token.
+ * @param {React.ReactNode} props.children - The child components to render if the user is authenticated.
+ * @returns {React.ReactElement} The protected route.
+ */
 const ProtectedRoute = ({ token, children }) => {
     if (!token) {
         return <Navigate to="/login" replace />;
@@ -18,11 +31,22 @@ const ProtectedRoute = ({ token, children }) => {
     return children;
 };
 
-// This is the main component that controls the entire application.
+/**
+ * @function App
+ * @description The main component that controls the entire application.
+ * @returns {React.ReactElement} The application's UI.
+ */
 export default function App() {
     const [token, setToken] = useState(localStorage.getItem('admin_token'));
     const [userRole, setUserRole] = useState(localStorage.getItem('admin_role'));
 
+    /**
+     * @function handleLoginSuccess
+     * @description Handles a successful login by storing the token and user role in local storage and state.
+     * @param {string} newToken - The new authentication token.
+     * @param {string} role - The user's role.
+     * @param {string} name - The user's name.
+     */
     const handleLoginSuccess = (newToken, role, name) => {
         localStorage.setItem('admin_token', newToken);
         localStorage.setItem('admin_role', role);
@@ -31,6 +55,10 @@ export default function App() {
         setUserRole(role);
     };
 
+    /**
+     * @function handleLogout
+     * @description Handles a logout by removing the token and user role from local storage and state.
+     */
     const handleLogout = () => {
         localStorage.removeItem('admin_token');
         localStorage.removeItem('admin_role');
