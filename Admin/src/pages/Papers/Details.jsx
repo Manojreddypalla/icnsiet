@@ -1,10 +1,22 @@
+/**
+ * @file Details.jsx
+ * @description This page displays the details of a single paper and allows admins to manage reviewers.
+ * @component
+ */
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { Spinner } from '../../components/ui/Icons';
 
-// This component displays the full details for a single paper and allows admins to manage reviewers.
+/**
+ * @function PaperDetailsPage
+ * @description This page displays the details of a single paper and allows admins to manage reviewers.
+ * @param {object} props - The component props.
+ * @param {string} props.token - The user's authentication token.
+ * @returns {React.ReactElement} The paper details page.
+ */
 export default function PaperDetailsPage({ token }) {
     // Get the paper's ID from the URL (e.g., /papers/123-abc)
     const { id } = useParams(); 

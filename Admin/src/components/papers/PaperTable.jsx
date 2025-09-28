@@ -1,7 +1,19 @@
+/**
+ * @file PaperTable.jsx
+ * @description This component displays a grid of papers.
+ * @component
+ */
+
 import React from "react";
 import { Link } from "react-router-dom";
 
-// Status Badge
+/**
+ * @function StatusBadge
+ * @description A component to display a status badge.
+ * @param {object} props - The component props.
+ * @param {string} props.status - The status to display.
+ * @returns {React.ReactElement} The status badge component.
+ */
 const StatusBadge = ({ status }) => {
   const baseClasses =
     "px-3 py-0.5 text-xs font-medium rounded-full inline-flex items-center";
@@ -21,7 +33,13 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-// Admin Paper Grid (Box View)
+/**
+ * @function PaperGrid
+ * @description A component to display a grid of papers.
+ * @param {object} props - The component props.
+ * @param {Array} props.papers - The list of papers to display.
+ * @returns {React.ReactElement} The paper grid component.
+ */
 export default function PaperGrid({ papers }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

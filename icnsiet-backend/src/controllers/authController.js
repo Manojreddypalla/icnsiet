@@ -1,7 +1,18 @@
+/**
+ * @file authController.js
+ * @description This file contains the controller functions for authentication-related operations.
+ * @module controllers/authController
+ */
+
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 
-// A helper function to sign a JWT token
+/**
+ * @function signToken
+ * @description Signs a JWT token with the user's ID.
+ * @param {string} id - The user's ID.
+ * @returns {string} The JWT token.
+ */
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '90d', // Token will be valid for 90 days
@@ -9,9 +20,12 @@ const signToken = (id) => {
 };
 
 /**
- * @desc    Register a new user (admin or reviewer)
- * @route   POST /api/users/register
- * @access  Private/Admin
+ * @function register
+ * @description Registers a new user (admin or reviewer).
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @param {function} next - The Express next middleware function.
+ * @returns {object} A JSON response confirming the user's creation.
  */
 export const register = async (req, res, next) => { // Added 'next' for error handling
   try {
@@ -53,9 +67,12 @@ export const register = async (req, res, next) => { // Added 'next' for error ha
 };
 
 /**
- * @desc    Log in an existing user
- * @route   POST /api/users/login
- * @access  Public
+ * @function login
+ * @description Logs in an existing user.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @param {function} next - The Express next middleware function.
+ * @returns {object} A JSON response containing the user's token, role, and name.
  */
 export const login = async (req, res, next) => { // Added 'next' for error handling
   try {
@@ -88,9 +105,12 @@ export const login = async (req, res, next) => { // Added 'next' for error handl
 
 
 /**
- * @desc    Get all users
- * @route   GET /api/users
- * @access  Private/Admin
+ * @function getAllUsers
+ * @description Retrieves all users.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @param {function} next - The Express next middleware function.
+ * @returns {object} A JSON response containing the list of users.
  */
 export const getAllUsers = async (req, res, next) => { // Added 'next' for error handling
     try {
@@ -109,9 +129,12 @@ export const getAllUsers = async (req, res, next) => { // Added 'next' for error
 };
 
 /**
- * @desc    Get all users with the 'reviewer' role
- * @route   GET /api/users/reviewers
- * @access  Private/Admin
+ * @function getReviewers
+ * @description Retrieves all users with the 'reviewer' role.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @param {function} next - The Express next middleware function.
+ * @returns {object} A JSON response containing the list of reviewers.
  */
 export const getReviewers = async (req, res, next) => { // Added 'next' for error handling
     try {

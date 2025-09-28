@@ -1,5 +1,19 @@
+/**
+ * @file email.js
+ * @description This file contains the email sending utility function.
+ * @module utils/email
+ */
+
 import nodemailer from 'nodemailer';
 
+/**
+ * @function sendEmail
+ * @description Sends an email using nodemailer.
+ * @param {object} options - The email options.
+ * @param {string} options.email - The recipient's email address.
+ * @param {string} options.subject - The subject of the email.
+ * @param {string} options.message - The plain text message of the email.
+ */
 const sendEmail = async options => {
     // 1) Create a transporter
     // We'll use Mailtrap for development, but you can switch to Gmail, SendGrid, etc.

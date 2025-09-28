@@ -1,8 +1,20 @@
+/**
+ * @file Sidebar.jsx
+ * @description This component displays the sidebar for the admin panel.
+ * @component
+ */
+
 import React from 'react';
 import { NavLink } from 'react-router-dom'; // Import NavLink
 import { HomeIcon, FileTextIcon, UsersIcon, LogOutIcon } from '../ui/Icons';
 
-// This component now uses NavLink for client-side routing.
+/**
+ * @function Sidebar
+ * @description This component displays the sidebar for the admin panel.
+ * @param {object} props - The component props.
+ * @param {function} props.onLogout - The function to call when the logout button is clicked.
+ * @returns {React.ReactElement} The sidebar component.
+ */
 export default function Sidebar({ onLogout }) {
     // Define classes for styling the active and inactive links
     const linkClasses = "flex items-center px-4 py-2 rounded-lg";

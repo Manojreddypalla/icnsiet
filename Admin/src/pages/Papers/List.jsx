@@ -1,5 +1,16 @@
+/**
+ * @file List.jsx
+ * @description This page displays a list of papers.
+ * @component
+ */
+
 import AdminLayout from "../../components/layout/AdminLayout";
 
+/**
+ * @function PapersList
+ * @description This page displays a list of papers.
+ * @returns {React.ReactElement} The papers list page.
+ */
 export default function PapersList() {
   return (
     <AdminLayout>

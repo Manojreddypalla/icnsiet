@@ -1,4 +1,9 @@
 ---
+/**
+ * @file contact.astro
+ * @description This page contains a form for submitting papers.
+ * @component
+ */
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -67,6 +72,10 @@ import Footer from '../components/Footer.astro';
 </Layout>
 
 <script>
+/**
+ * @file This script handles the paper submission form.
+ * @description It sends the form data to the backend API and displays the response.
+ */
   const form = document.getElementById('paperForm');
   const responseContainer = document.getElementById('response');
   const responseData = document.getElementById('response-data');

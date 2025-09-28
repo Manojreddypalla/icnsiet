@@ -1,3 +1,9 @@
+/**
+ * @file visitors.ts
+ * @description This file contains the API route for tracking and retrieving visitor counts.
+ * @module pages/api/visitors
+ */
+
 import type { APIRoute } from 'astro';
 import { MongoClient, ObjectId } from 'mongodb';
 
@@ -18,6 +24,11 @@ if (!MONGODB_URI) {
 
 let client: MongoClient | null = null;
 
+/**
+ * @function getMongoClient
+ * @description Establishes and returns a MongoDB client connection.
+ * @returns {Promise<MongoClient>} A promise that resolves to a MongoClient instance.
+ */
 async function getMongoClient() {
   if (!MONGODB_URI) {
     throw new Error('MongoDB connection string is not defined in environment variables');
@@ -30,6 +41,14 @@ async function getMongoClient() {
   return client;
 }
 
+/**
+ * @type {APIRoute}
+ * @function GET
+ * @description Handles GET requests to the /api/visitors endpoint.
+ * @param {object} context - The Astro context object.
+ * @param {Request} context.request - The request object.
+ * @returns {Promise<Response>} A promise that resolves to a Response object.
+ */
 export const GET: APIRoute = async ({ request }) => {
   try {
     // Check for MongoDB URI first
