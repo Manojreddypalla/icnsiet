@@ -1,5 +1,9 @@
 ---
-// CountdownGlassyLight.astro
+/**
+ * @file count.astro
+ * @description This component displays a countdown timer.
+ * @component
+ */
 ---
 <section class="h-[500px] flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 text-gray-900 p-6 transition-all duration-500 ease-in-out" id="background">
   <h2 class="text-4xl font-extrabold mb-8 tracking-wider text-purple-700 drop-shadow-md">TIME REMAINING</h2>
@@ -15,6 +19,15 @@
 </section>
 
 <script>
+/**
+ * @file This script handles the countdown timer functionality.
+ * @description It calculates the time remaining until a target date and updates the UI every second.
+ */
+
+  /**
+   * @function updateCountdown
+   * @description Calculates the time remaining and updates the countdown cards.
+   */
   function updateCountdown() {
     const now = new Date();
     const targetDate = new Date('December 1, 2025 00:00:00');
@@ -31,6 +44,12 @@
     updateCard('seconds', seconds);
   }
 
+  /**
+   * @function updateCard
+   * @description Updates a single countdown card with a new value.
+   * @param {string} unit - The unit of time (e.g., 'days', 'hours').
+   * @param {number} value - The new value for the unit.
+   */
   function updateCard(unit, value) {
     const newValue = String(value).padStart(2, '0');
     const card = document.getElementById(unit);
@@ -44,11 +63,19 @@
     }
   }
 
+  /**
+   * @function shiftBackground
+   * @description Shifts the background gradient on mouseover.
+   */
   function shiftBackground() {
     const bg = document.getElementById('background');
     bg.style.background = 'linear-gradient(135deg, #d3cce3, #e9e4f0)';
   }
 
+  /**
+   * @function resetBackground
+   * @description Resets the background gradient on mouseout.
+   */
   function resetBackground() {
     const bg = document.getElementById('background');
     bg.style.background = 'linear-gradient(to bottom right, #f3f4f6, #e5e7eb, #d1d5db)';

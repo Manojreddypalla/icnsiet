@@ -1,10 +1,21 @@
+/**
+ * @file index.jsx
+ * @description This page displays a list of papers and allows admins to filter them.
+ * @component
+ */
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { Spinner, EyeIcon, FileTextIcon } from '../../components/ui/Icons';
 
-// --- NEW: Helper function to calculate the review status ---
+/**
+ * @function getReviewStatus
+ * @description Calculates the review status of a paper.
+ * @param {object} paper - The paper object.
+ * @returns {object} An object containing the status text, color, and progress.
+ */
 const getReviewStatus = (paper) => {
     if (!paper.reviews || paper.reviews.length === 0) {
         return { text: 'Not Assigned', color: 'bg-gray-100 text-gray-800' };
@@ -34,7 +45,13 @@ const getReviewStatus = (paper) => {
     return { text: statusText, color, progress: `${completedReviews}/${totalReviews}` };
 };
 
-
+/**
+ * @function PaperCard
+ * @description A card component to display a paper.
+ * @param {object} props - The component props.
+ * @param {object} props.paper - The paper object.
+ * @returns {React.ReactElement} The paper card component.
+ */
 const PaperCard = ({ paper }) => {
     const reviewStatus = getReviewStatus(paper);
 
@@ -64,6 +81,15 @@ const PaperCard = ({ paper }) => {
     );
 };
 
+/**
+ * @function PapersHeader
+ * @description The header component for the papers page.
+ * @param {object} props - The component props.
+ * @param {number} props.paperCount - The total number of papers.
+ * @param {function} props.onFilterChange - The function to call when the filter changes.
+ * @param {string} props.activeFilter - The active filter.
+ * @returns {React.ReactElement} The papers header component.
+ */
 const PapersHeader = ({ paperCount, onFilterChange, activeFilter }) => {
     const filters = ['All', 'Pending', 'Accepted', 'Rejected']; // These now filter by the paper's FINAL status
     return (
@@ -93,6 +119,14 @@ const PapersHeader = ({ paperCount, onFilterChange, activeFilter }) => {
     );
 };
 
+/**
+ * @function PapersPage
+ * @description This page displays a list of papers and allows admins to filter them.
+ * @param {object} props - The component props.
+ * @param {string} props.token - The user's authentication token.
+ * @param {function} props.onLogout - The function to call when the user logs out.
+ * @returns {React.ReactElement} The papers page.
+ */
 export default function PapersPage({ token, onLogout }) {
     const [papers, setPapers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

@@ -1,3 +1,10 @@
+---
+/**
+ * @file Hero.astro
+ * @description This component displays the hero section of the website, including a call to action and a visitor counter.
+ * @component
+ */
+---
 <section class="relative py-20 overflow-hidden">
   <div class="absolute inset-0 z-0">
     <img
@@ -35,6 +42,11 @@
 </section>
 
 <script>
+/**
+ * @file This script handles the visitor counter functionality.
+ * @description It communicates with the `/api/visitors` endpoint to track and display the number of total and active visitors.
+ */
+
 // Get or create client ID from localStorage
 let clientId = localStorage.getItem('visitor-client-id');
 if (!clientId) {
@@ -46,6 +58,11 @@ let updateInterval: number | null = null;
 let lastUpdateTime = Date.now();
 let hasUpdatedVisits = localStorage.getItem('has-updated-visits') === 'true';
 
+/**
+ * @function showElement
+ * @description Shows a specific element by its ID and hides the others.
+ * @param {string} id - The ID of the element to show.
+ */
 function showElement(id: string) {
   document.getElementById('loading-text')?.classList.add('hidden');
   document.getElementById('error-text')?.classList.add('hidden');
@@ -54,6 +71,11 @@ function showElement(id: string) {
   document.getElementById(id)?.classList.remove('hidden');
 }
 
+/**
+ * @function updateVisitorCount
+ * @description Fetches and updates the visitor count from the API.
+ * @param {boolean} updateTotalVisits - Whether to increment the total visitor count.
+ */
 async function updateVisitorCount(updateTotalVisits = false) {
   try {
     // Only update if at least 5 seconds have passed since last update

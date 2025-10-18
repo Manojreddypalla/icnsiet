@@ -1,8 +1,21 @@
+/**
+ * @file Login.jsx
+ * @description This page handles the user login.
+ * @component
+ */
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { MailIcon, LockIcon, Spinner } from '../../components/ui/Icons';
 
+/**
+ * @function LoginPage
+ * @description This page handles the user login.
+ * @param {object} props - The component props.
+ * @param {function} props.onLoginSuccess - The function to call when the login is successful.
+ * @returns {React.ReactElement} The login page.
+ */
 export default function LoginPage({ onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

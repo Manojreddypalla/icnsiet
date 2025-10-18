@@ -1,0 +1,4 @@
+// Write code below 💖
+
+let w=[1,2,5,6,3];
+console.log(w[0]);
