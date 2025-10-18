@@ -1,0 +1,10 @@
+# Ignore local dependencies and build artifacts
+node_modules
+dist
+
+# Ignore environment variables file
+.env*
+
+# Ignore git and other local config files
+.git
+eslint.config.js
